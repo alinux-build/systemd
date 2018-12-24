@@ -1,3 +1,4 @@
+%define alicloud_base_release 1
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -7,7 +8,7 @@
 Name:           systemd
 Url:            http://www.freedesktop.org/wiki/Software/systemd
 Version:        219
-Release:        62%{?dist}
+Release:        62.%{alicloud_base_release}%{?dist}
 # For a breakdown of the licensing, see README
 License:        LGPLv2+ and MIT and GPLv2+
 Summary:        A System and Service Manager
@@ -1679,6 +1680,9 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
+* Tue Dec 25 2018 Caspar Zhang <jinli.zjl@alibaba-inc.com> - 219-62.1
+- rebuild for alinux7u6-os
+
 * Fri Sep 07 2018 Lukas Nykryn <lnykryn@redhat.com> - 219-62
 - cryptsetup-generator: introduce basic keydev support (#1619743)
 - cryptsetup-generator: don't return error if target directory already exists (#1619743)
