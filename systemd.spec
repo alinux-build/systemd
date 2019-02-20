@@ -1,4 +1,4 @@
-%define alicloud_base_release 1
+%define alicloud_base_release 2
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -8,7 +8,7 @@
 Name:           systemd
 Url:            http://www.freedesktop.org/wiki/Software/systemd
 Version:        219
-Release:        62.%{alicloud_base_release}%{?dist}
+Release:        62.%{alicloud_base_release}%{?dist}.3
 # For a breakdown of the licensing, see README
 License:        LGPLv2+ and MIT and GPLv2+
 Summary:        A System and Service Manager
@@ -704,6 +704,11 @@ Patch0661: 0661-cryptsetup-generator-introduce-basic-keydev-support.patch
 Patch0662: 0662-cryptsetup-generator-don-t-return-error-if-target-di.patch
 Patch0663: 0663-cryptsetup-generator-allow-whitespace-characters-in-.patch
 Patch0664: 0664-Make-sure-the-mount-units-pulled-by-RequiresMountsFo.patch
+Patch0665: 0665-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
+Patch0666: 0666-journald-do-not-store-the-iovec-entry-for-process-co.patch
+Patch0667: 0667-journald-set-a-limit-on-the-number-of-fields-1k.patch
+Patch0668: 0668-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
+Patch0669: 0669-journald-free-cmdline-buffers-owned-by-iovec.patch
 
 %global num_patches %{lua: c=0; for i,p in ipairs(patches) do c=c+1; end; print(c);}
 
@@ -1680,8 +1685,19 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
-* Tue Dec 25 2018 Caspar Zhang <jinli.zjl@alibaba-inc.com> - 219-62.1
-- rebuild for alinux7u6-os
+* Thu Feb 21 2019 Caspar Zhang <caspar@linux.alibaba.com> - 219-62.2.al7.3
+- Rebuild for Aliyun Linux
+
+* Wed Jan 16 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-62.3
+- journald: free cmdline buffers owned by iovec (#1666646)
+
+* Mon Jan 07 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-62.2
+- journald: do not store the iovec entry for process commandline on stack (#1657788)
+- journald: set a limit on the number of fields (1k) (#1657792)
+- journal-remote: set a limit on the number of fields in a message (#1657792)
+
+* Mon Nov 26 2018 Lukas Nykryn <lnykryn@redhat.com> - 219-62.1
+- dhcp6: make sure we have enough space for the DHCP6 option header (CVE-2018-15688)
 
 * Fri Sep 07 2018 Lukas Nykryn <lnykryn@redhat.com> - 219-62
 - cryptsetup-generator: introduce basic keydev support (#1619743)
