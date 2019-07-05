@@ -1,4 +1,4 @@
-%define alicloud_base_release 1
+%define alicloud_base_release 5
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -1690,8 +1690,9 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
-* Fri Jul 05 2019 Wei Liu - Aliyun Linux OS Team <alicloud-linux-os@service.aliyun.com> - 219-62.1.al7.7
+* Fri Jul 05 2019 Wei Liu - Aliyun Linux OS Team <alicloud-linux-os@service.aliyun.com> - 219-62.5.al7.7
 - Rebuild for Aliyun Linux
+- Modify alicloud_base_release and Re-tag
 
 * Wed Apr 24 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-62.7
 - rules: fix memory hotplug rule so systemd-detect-virt does not run too often (#1701230)
