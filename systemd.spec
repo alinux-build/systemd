@@ -1,4 +1,4 @@
-%define alicloud_base_release 1
+%define alicloud_base_release 6
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -1694,8 +1694,9 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
-* Thu Aug 01 2019 Wei Liu - Aliyun Linux OS Team <alicloud-linux-os@service.aliyun.com> - 219-62.1.al7.9
+* Thu Aug 01 2019 Wei Liu - Aliyun Linux OS Team <alicloud-linux-os@service.aliyun.com> - 219-62.6.al7.9
 - Rebuild for Aliyun Linux
+- Modify alicloud_base_release and Re-ta
 
 * Tue Jul 30 2019 Pablo Greco <pgreco@centosproject.org> - 219-62.9
 - Update kernel-install script for fedora-like kernels
