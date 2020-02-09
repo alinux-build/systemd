@@ -1,4 +1,3 @@
-%define alicloud_base_release 1
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -8,7 +7,7 @@
 Name:           systemd
 Url:            http://www.freedesktop.org/wiki/Software/systemd
 Version:        219
-Release:        67.%{alicloud_base_release}%{?dist}.2
+Release:        67%{?dist}.3
 # For a breakdown of the licensing, see README
 License:        LGPLv2+ and MIT and GPLv2+
 Summary:        A System and Service Manager
@@ -799,6 +798,7 @@ Patch0756: 0756-pid1-properly-remove-references-to-the-unit-from-gc-.patch
 Patch0757: 0757-service-relax-PID-file-symlink-chain-checks-a-bit-81.patch
 Patch0758: 0758-path-util-fix-more-path_is_mount-e792e890f-fallout.patch
 Patch0759: 0759-core-exclude-.slice-units-from-systemctl-isolate.patch
+Patch0760: 0760-unit-fix-potential-use-of-cgroup_path-after-free-whe.patch
 
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
@@ -1777,8 +1777,8 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
-* Thu Oct 24 2019 Wei Liu - Aliyun Linux OS Team <alicloud-linux-os@service.aliyun.com> - 219-67.1.al7.2
-- Rebuild for Aliyun Linux
+* Fri Nov 29 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-67.3
+- unit: fix potential use of cgroup_path after free() when freeing unit (#1778083)
 
 * Thu Sep 19 2019 David Tardon <dtardon@redhat.com> - 219-67.2
 - core: exclude .slice units from "systemctl isolate" (#1751130)
