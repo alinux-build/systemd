@@ -1,3 +1,4 @@
+%define alicloud_base_release 1
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -7,7 +8,7 @@
 Name:           systemd
 Url:            http://www.freedesktop.org/wiki/Software/systemd
 Version:        219
-Release:        67%{?dist}.3
+Release:        67.%{alicloud_base_release}%{?dist}.3
 # For a breakdown of the licensing, see README
 License:        LGPLv2+ and MIT and GPLv2+
 Summary:        A System and Service Manager
@@ -1777,6 +1778,9 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
+* Sun Feb 09 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-67.1.3
+- Rebuild for Alibaba Cloud Linux
+
 * Fri Nov 29 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-67.3
 - unit: fix potential use of cgroup_path after free() when freeing unit (#1778083)
 
