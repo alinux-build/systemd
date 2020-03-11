@@ -1,4 +1,4 @@
-%define alicloud_base_release 1
+%define alicloud_base_release 2
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -800,6 +800,10 @@ Patch0757: 0757-service-relax-PID-file-symlink-chain-checks-a-bit-81.patch
 Patch0758: 0758-path-util-fix-more-path_is_mount-e792e890f-fallout.patch
 Patch0759: 0759-core-exclude-.slice-units-from-systemctl-isolate.patch
 Patch0760: 0760-unit-fix-potential-use-of-cgroup_path-after-free-whe.patch
+
+Patch7000: 7000-networkd-fix-IFF_UP-when-ipv6-support-is-disabled.patch
+Patch7001: 7001-networkd-Wait-for-DHCPv6-before-announcing-link-conf.patch
+Patch7002: 7002-networkd-Be-opportunistic-when-declaring-link-config.patch
 
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
@@ -1778,6 +1782,11 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
+* Wed Mar 11 2020 Wen Yang <wenyang@linux.alibaba.com> - 219-67.2.3
+- networkd: fix IFF_UP when ipv6 support is disabled
+- networkd: Wait for DHCPv6 before announcing link configured
+- networkd: Be opportunistic when declaring link configured
+
 * Sun Feb 09 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-67.1.3
 - Rebuild for Alibaba Cloud Linux
 
