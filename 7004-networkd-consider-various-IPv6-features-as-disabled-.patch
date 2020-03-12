@@ -1,0 +1,40 @@
+From 12f8f5c3c67566e7ed273d6ebfae9b1f19dbdb52 Mon Sep 17 00:00:00 2001
+From: Lennart Poettering <lennart@poettering.net>
+Date: Wed, 20 Apr 2016 15:32:24 +0200
+Subject: [PATCH] networkd: consider various IPv6 features as disabled if IPv6
+ is not available in the kernel
+
+[ commit fa7099927c87b91804c6cc5ec3a3d8f8b6ba9ada upstream ]
+---
+ src/network/networkd-link.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+index 30adddd..f7060f2 100644
+--- a/src/network/networkd-link.c
++++ b/src/network/networkd-link.c
+@@ -38,6 +38,10 @@
+ #include "socket-util.h"
+ 
+ bool link_dhcp6_enabled(Link *link) {
++
++        if (!socket_ipv6_is_supported())
++                return false;
++
+         if (link->flags & IFF_LOOPBACK)
+                 return false;
+ 
+@@ -78,6 +82,10 @@ bool link_ipv4ll_enabled(Link *link) {
+ }
+ 
+ bool link_ipv6ll_enabled(Link *link) {
++
++        if (!socket_ipv6_is_supported())
++                return false;
++
+         if (link->flags & IFF_LOOPBACK)
+                 return false;
+ 
+-- 
+1.8.3.1
+

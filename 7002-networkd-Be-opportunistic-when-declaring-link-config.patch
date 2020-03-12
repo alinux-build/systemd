@@ -1,0 +1,45 @@
+From 3ada37a21e3ce5913b952df555f487f88bdb59ea Mon Sep 17 00:00:00 2001
+From: Patrik Flykt <patrik.flykt@linux.intel.com>
+Date: Thu, 24 Sep 2015 15:04:17 +0300
+Subject: [PATCH] networkd: Be opportunistic when declaring link configured
+
+[ commit 3ada37a21e3ce5913b952df555f487f88bdb59ea upstream ]
+The DHCP variable in the [Network] section of the network configuration
+file moves the link to the configured state according to the following:
+
+DHCP=yes   Link is configured when either DHCPv4 or DHCPv6 succeed
+DHCP=ipv4  Link is configured only when DHCPv4 succeeds
+DHCP=ipv6  Link is configured only when DHCPv6 succeeds
+DHCP=no    Neither DHCPv4 or DHCPv6 is attempted
+
+Reported by Martin Pitt.
+
+Fixes https://github.com/systemd/systemd/issues/1368
+---
+ src/network/networkd-link.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+index 5dd14b1104..db3975f466 100644
+--- a/src/network/networkd-link.c
++++ b/src/network/networkd-link.c
+@@ -501,10 +501,12 @@ void link_client_handler(Link *link) {
+                     !link->ipv4ll_route)
+                         return;
+ 
+-        if (link_dhcp4_enabled(link) && !link->dhcp4_configured)
+-                        return;
+-
+-        if (link_dhcp6_enabled(link) && !link->dhcp6_configured)
++        if ((link_dhcp4_enabled(link) && !link_dhcp6_enabled(link) &&
++             !link->dhcp4_configured) ||
++            (link_dhcp6_enabled(link) && !link_dhcp4_enabled(link) &&
++             !link->dhcp6_configured) ||
++            (link_dhcp4_enabled(link) && link_dhcp6_enabled(link) &&
++             !link->dhcp4_configured && !link->dhcp6_configured))
+                 return;
+ 
+         if (link->state != LINK_STATE_CONFIGURED)
+-- 
+2.23.0
+

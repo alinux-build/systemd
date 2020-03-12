@@ -805,7 +805,11 @@ Patch0762: 0762-unit-rework-a-bit-how-we-keep-the-service-fdstore-fr.patch
 Patch0763: 0763-tests-add-basic-journal-test.patch
 Patch0764: 0764-tests-add-regression-test-for-systemctl-restart-syst.patch
 Patch0765: 0765-tests-add-test-that-journald-keeps-fds-over-terminat.patch
-
+Patch7000: 7000-networkd-fix-IFF_UP-when-ipv6-support-is-disabled.patch
+Patch7001: 7001-networkd-Wait-for-DHCPv6-before-announcing-link-conf.patch
+Patch7002: 7002-networkd-Be-opportunistic-when-declaring-link-config.patch
+Patch7003: 7003-networkd-don-t-try-to-turn-on-ipv6-forwarding-if-ker.patch
+Patch7004: 7004-networkd-consider-various-IPv6-features-as-disabled-.patch
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
 %global num_patches %{lua: c=0; for i,p in ipairs(patches) do c=c+1; end; print(c);}
@@ -1785,6 +1789,11 @@ fi
 %changelog
 * Fri Mar 20 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-67.3.4
 - Rebuild for Alibaba Cloud Linux
+- networkd: fix IFF_UP when ipv6 support is disabled
+- networkd: Wait for DHCPv6 before announcing link configured
+- networkd: Be opportunistic when declaring link configured
+- networkd: don't try to turn on ipv6 forwarding if kernel lacks IPv6 support
+- networkd: consider various IPv6 features as disabled if IPv6 is not available in the kernel
 
 * Tue Feb 18 2020 systemd maintenance team <systemd-maint@redhat.com> - 219-67.4
 - core: when restarting services, don't close fds (#1798162)
