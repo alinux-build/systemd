@@ -841,7 +841,11 @@ Patch0798: 0798-Call-getgroups-to-know-size-of-supplementary-groups-.patch
 Patch0799: 0799-udev-introduce-CONST-key-name.patch
 Patch0800: 0800-path-stop-watching-path-specs-once-we-triggered-the-.patch
 Patch0801: 0801-unit-fix-potential-use-of-cgroup_path-after-free-whe.patch
-
+Patch7000: 7000-networkd-fix-IFF_UP-when-ipv6-support-is-disabled.patch
+Patch7001: 7001-networkd-Wait-for-DHCPv6-before-announcing-link-conf.patch
+Patch7002: 7002-networkd-Be-opportunistic-when-declaring-link-config.patch
+Patch7003: 7003-networkd-don-t-try-to-turn-on-ipv6-forwarding-if-ker.patch
+Patch7004: 7004-networkd-consider-various-IPv6-features-as-disabled-.patch
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
 %global num_patches %{lua: c=0; for i,p in ipairs(patches) do c=c+1; end; print(c);}
@@ -1822,6 +1826,11 @@ fi
 %changelog
 * Tue May 12 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-73.1.1
 - Rebuild for Alibaba Cloud Linux
+- networkd: fix IFF_UP when ipv6 support is disabled
+- networkd: Wait for DHCPv6 before announcing link configured
+- networkd: Be opportunistic when declaring link configured
+- networkd: don't try to turn on ipv6 forwarding if kernel lacks IPv6 support
+- networkd: consider various IPv6 features as disabled if IPv6 is not available in the kernel
 
 * Fri Nov 29 2019 Lukas Nykryn <lnykryn@redhat.com> - 219-73.1
 - unit: fix potential use of cgroup_path after free() when freeing unit (#1760149)
