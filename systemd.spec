@@ -804,6 +804,8 @@ Patch0760: 0760-unit-fix-potential-use-of-cgroup_path-after-free-whe.patch
 Patch7000: 7000-networkd-fix-IFF_UP-when-ipv6-support-is-disabled.patch
 Patch7001: 7001-networkd-Wait-for-DHCPv6-before-announcing-link-conf.patch
 Patch7002: 7002-networkd-Be-opportunistic-when-declaring-link-config.patch
+Patch7003: 7003-networkd-don-t-try-to-turn-on-ipv6-forwarding-if-ker.patch
+Patch7004: 7004-networkd-consider-various-IPv6-features-as-disabled-.patch
 
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
@@ -1786,6 +1788,8 @@ fi
 - networkd: fix IFF_UP when ipv6 support is disabled
 - networkd: Wait for DHCPv6 before announcing link configured
 - networkd: Be opportunistic when declaring link configured
+- networkd: don't try to turn on ipv6 forwarding if kernel lacks IPv6 support
+- networkd: consider various IPv6 features as disabled if IPv6 is not available in the kernel
 
 * Sun Feb 09 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-67.1.3
 - Rebuild for Alibaba Cloud Linux
