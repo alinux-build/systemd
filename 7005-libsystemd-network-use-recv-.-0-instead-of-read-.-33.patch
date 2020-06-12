@@ -1,0 +1,52 @@
+From ad1802fc5329fcd86607feaf44007596531d7060 Mon Sep 17 00:00:00 2001
+From: Wen Yang <wenyang@linux.alibaba.com>
+Date: Thu, 11 Jun 2020 11:36:16 +0800
+Subject: [PATCH] libsystemd-network: use recv(..., 0) instead of read(...)
+ (#3317)
+
+(cherry picked from commit cf447cb62d01137f4cbd1cd14b83b88823542bbf)
+
+According to recv(2) these should be the same, but that is not true.
+Passing a buffer of length 0 to read is defined to be a noop according
+to read(2), but passing a buffer of length 0 to recv will discard the
+pending pacet.
+
+We can easily hit this as we allocate our buffer size depending on
+the size of the incoming packet (using FIONREAD). As pointed out in
+issue #3299 simply sending an empty UDP packet to the DHCP client
+port will trigger a busy loop in networkd as we are polling on the
+socket but never discarding the empty packet.
+---
+ src/libsystemd-network/sd-dhcp-client.c  | 2 +-
+ src/libsystemd-network/sd-dhcp6-client.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
+index 870850e..baceaa9 100644
+--- a/src/libsystemd-network/sd-dhcp-client.c
++++ b/src/libsystemd-network/sd-dhcp-client.c
+@@ -1490,7 +1490,7 @@ static int client_receive_message_udp(sd_event_source *s, int fd,
+         if (!message)
+                 return -ENOMEM;
+ 
+-        len = read(fd, message, buflen);
++        len = recv(fd, message, buflen, 0);
+         if (len < 0) {
+                 log_dhcp_client(client, "could not receive message from UDP "
+                                 "socket: %m");
+diff --git a/src/libsystemd-network/sd-dhcp6-client.c b/src/libsystemd-network/sd-dhcp6-client.c
+index a432bbf..1a3978a 100644
+--- a/src/libsystemd-network/sd-dhcp6-client.c
++++ b/src/libsystemd-network/sd-dhcp6-client.c
+@@ -856,7 +856,7 @@ static int client_receive_message(sd_event_source *s, int fd, uint32_t revents,
+         if (!message)
+                 return -ENOMEM;
+ 
+-        len = read(fd, message, buflen);
++        len = recv(fd, message, buflen, 0);
+         if ((size_t)len < sizeof(DHCP6Message)) {
+                 log_dhcp6_client(client, "could not receive message from UDP socket: %m");
+                 return 0;
+-- 
+1.8.3.1
+

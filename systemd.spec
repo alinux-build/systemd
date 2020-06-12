@@ -1,4 +1,4 @@
-%define alicloud_base_release 1
+%define alicloud_base_release 2
 # We ship a .pc file but don't want to have a dep on pkg-config. We
 # strip the automatically generated dep here and instead co-own the
 # directory.
@@ -846,6 +846,7 @@ Patch7001: 7001-networkd-Wait-for-DHCPv6-before-announcing-link-conf.patch
 Patch7002: 7002-networkd-Be-opportunistic-when-declaring-link-config.patch
 Patch7003: 7003-networkd-don-t-try-to-turn-on-ipv6-forwarding-if-ker.patch
 Patch7004: 7004-networkd-consider-various-IPv6-features-as-disabled-.patch
+Patch7005: 7005-libsystemd-network-use-recv-.-0-instead-of-read-.-33.patch
 Patch9999: 9999-Update-kernel-install-script-by-backporting-fedora-p.patch
 
 %global num_patches %{lua: c=0; for i,p in ipairs(patches) do c=c+1; end; print(c);}
@@ -1824,6 +1825,9 @@ fi
 %{_mandir}/man8/systemd-resolved.*
 
 %changelog
+* Fri Jun 12 2020 Wen Yang <wenyang@linux.alibaba.com> - 219-73.2.1
+- libsystemd-network: use recv(..., 0) instead of read(...)
+
 * Tue May 12 2020 Wei Liu <alicloud-linux-os@service.aliyun.com> - 219-73.1.1
 - Rebuild for Alibaba Cloud Linux
 - networkd: fix IFF_UP when ipv6 support is disabled
